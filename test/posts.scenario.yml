@@ -1,0 +1,51 @@
+config:
+  target: 'https://api.flant.club/api'
+  phases:
+    - duration: 2
+      arrivalRate: 1000
+      name: 'Warm up'
+  defaults:
+    headers:
+      Content-Type: application/json
+      User-Agent: 'Artillery'
+  payload:
+    path: './users.csv'
+    fields:
+      - 'userId'
+      - 'name'
+      - 'email'
+      - 'password'
+      - 'createdAt'
+      - 'updatedAt'
+      - 'deletedAt'
+      - 'role'
+      - 'point'
+      - 'provider'
+    loadAll: false
+    order: random
+
+scenarios:
+  - name: "Post"
+    flow:
+      - post:
+          url: '/v1/auth/sign-in'
+          json:
+            email: "{{email}}"
+            password: "{{password}}"
+          capture:
+            - json: "$.data.accessToken"
+              as: "accessToken"
+      - get: 
+          url: '/v1/communities/me'
+          headers:
+            authorization: "Bearer {{accessToken}}"
+          capture:
+            - json: "$.data[0].communityId"
+              as: "communityId"
+      - get: 
+          url: '/v1/post?communityId={{communityId}}'
+          headers:
+            authorization: "Bearer {{accessToken}}"
+          capture:
+            - json: "$.data"
+              as: "posts"
