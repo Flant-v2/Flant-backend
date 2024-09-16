@@ -60,11 +60,11 @@ export class LiveService {
         hls: true, // HLS 사용 설정
         allow_origin: '*',
       },
-      https: {
-        port: 8443,
-        key: '/etc/letsencrypt/live/live.flant.club/privkey.pem',
-        cert: '/etc/letsencrypt/live/live.flant.club/fullchain.pem',
-      },
+      // https: {
+      //   port: 8443,
+      //   key: '/etc/letsencrypt/live/live.flant.club/privkey.pem',
+      //   cert: '/etc/letsencrypt/live/live.flant.club/fullchain.pem',
+      // },
       trans: {
         ffmpeg: '/usr/bin/ffmpeg',
         //ffmpeg: '/Users/pc/Downloads/ffmpeg-2024-08-18-git-7e5410eadb-full_build/ffmpeg-2024-08-18-git-7e5410eadb-full_build/bin/ffmpeg.exe',
