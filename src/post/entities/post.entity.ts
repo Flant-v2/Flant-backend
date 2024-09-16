@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,6 +17,7 @@ import { Exclude } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Artist } from './../../admin/entities/artist.entity';
 import { CommunityUser } from 'src/community/community-user/entities/communityUser.entity';
+import { Report } from 'src/report/entities/report.entity';
 
 @Entity()
 export class Post {
@@ -71,9 +73,14 @@ export class Post {
   @JoinColumn({ name: 'artist_id' })
   artist: Artist;
 
-  @ManyToOne(() => CommunityUser, (communityUser) => communityUser.posts,{
-    onDelete: 'CASCADE'
+  @ManyToOne(() => CommunityUser, (communityUser) => communityUser.posts, {
+    onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'community_user_id'})
+  @JoinColumn({ name: 'community_user_id' })
   communityUser: CommunityUser;
+
+  //신고 연결
+  @OneToOne(() => Report, (report) => report.post, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  report: Report;
 }

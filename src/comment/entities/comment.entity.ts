@@ -7,11 +7,13 @@ import {
   DeleteDateColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   JoinColumn,
 } from 'typeorm';
 import { CommunityUser } from '../../community/community-user/entities/communityUser.entity';
 import { Artist } from '../../admin/entities/artist.entity';
 import { join } from 'path';
+import { Report } from 'src/report/entities/report.entity';
 //import { Post } from 'src/post/entities/post.entity';
 
 @Entity('comments')
@@ -40,7 +42,7 @@ export class Comment {
     nullable: true,
     onDelete: 'SET NULL',
   })
-  @JoinColumn({name: 'artist_id'})
+  @JoinColumn({ name: 'artist_id' })
   artist: Artist | null;
 
   @Column('text')
@@ -66,4 +68,9 @@ export class Comment {
     onDelete: 'CASCADE',
   })
   parent: Comment | null;
+
+  //신고 연결
+  @OneToOne(() => Report, (report) => report.comment, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  report: Report;
 }

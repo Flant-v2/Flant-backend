@@ -18,6 +18,7 @@ import { Artist } from 'src/admin/entities/artist.entity';
 import { Manager } from './../../../admin/entities/manager.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { IsValidNameConstraint } from 'src/util/decorators/is-valid-name-constraint';
+import { Report } from 'src/report/entities/report.entity';
 
 @Entity('community_users')
 export class CommunityUser {
@@ -71,7 +72,14 @@ export class CommunityUser {
 
   @OneToOne(() => Manager, (manager) => manager.communityUser)
   manager: Manager;
-
+  s;
   @OneToMany(() => Post, (post) => post.communityUser)
   posts: Post[];
+
+  //신고 연결
+  @OneToMany(() => Report, (report) => report.communityUser, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  report: Report[];
 }
