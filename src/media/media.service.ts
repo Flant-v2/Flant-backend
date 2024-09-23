@@ -3,11 +3,9 @@ import {
   HttpStatus,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, Repository } from 'typeorm';
-import { Manager } from 'src/admin/entities/manager.entity';
 import _ from 'lodash';
 import { Media } from './entities/media.entity';
 import { MediaFile } from './entities/media-file.entity';
