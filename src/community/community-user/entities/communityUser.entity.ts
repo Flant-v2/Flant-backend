@@ -14,8 +14,6 @@ import {
 import { Community } from '../../entities/community.entity';
 import { User } from '../../../user/entities/user.entity';
 import { Comment } from '../../../comment/entities/comment.entity';
-import { Artist } from 'src/admin/entities/artist.entity';
-import { Manager } from './../../../admin/entities/manager.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { IsValidNameConstraint } from 'src/util/decorators/is-valid-name-constraint';
 
@@ -65,12 +63,6 @@ export class CommunityUser {
 
   @OneToMany(() => Comment, (comment) => comment.communityUser)
   comments: Comment[]; // 커뮤니티와 댓글 관계
-
-  @OneToOne(() => Artist, (artist) => artist.communityUser)
-  artist: Artist;
-
-  @OneToOne(() => Manager, (manager) => manager.communityUser)
-  manager: Manager;
 
   @OneToMany(() => Post, (post) => post.communityUser)
   posts: Post[];

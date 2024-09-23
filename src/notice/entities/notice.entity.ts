@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { NoticeImage } from './notice-image.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Manager } from 'src/admin/entities/manager.entity';
 
 @Entity('notices')
 export class Notice {
@@ -53,8 +52,4 @@ export class Notice {
 
   @OneToMany(() => NoticeImage, (noticeImage) => noticeImage.notice)
   noticeImages: NoticeImage[];
-
-  @ManyToOne(() => Manager, (manager) => manager.notice)
-  @JoinColumn({name: 'manager_id'})
-  manager: Manager;
 }

@@ -4,20 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Manager } from '../entities/manager.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Community } from './../../community/entities/community.entity';
 import { CommunityUser } from 'src/community/community-user/entities/communityUser.entity';
 import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
 import { MESSAGES } from 'src/constants/message.constant';
-import { CreateManagerDto } from '../dto/create-manager.dto';
-import { UserRole } from 'src/user/types/user-role.type';
 @Injectable()
 export class AdminManagerService {
   constructor(
-    @InjectRepository(Manager)
-    private readonly managerRepository: Repository<Manager>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Community)

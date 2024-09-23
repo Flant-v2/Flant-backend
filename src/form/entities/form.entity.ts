@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { ApplyUser } from './apply-user.entity';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { Manager } from 'src/admin/entities/manager.entity';
 import { Community } from 'src/community/entities/community.entity';
 import { FormType } from '../types/form-type.enum';
 import { FormQuestion } from './form-question.entity';
@@ -65,13 +64,6 @@ export class Form {
   //form_question 연결
   @OneToMany(() => FormQuestion, (formQuestion) => formQuestion.form)
   formQuestion: FormQuestion[];
-
-  // 매니저 연결
-  @ManyToOne(() => Manager, (manager) => manager.form, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'manager_id' })
-  manager: Manager;
 
   //커뮤니티 연결
   @ManyToOne(() => Community, (community) => community.form, {
