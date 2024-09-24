@@ -4,16 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {
-  IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
-  IsUrl,
 } from 'class-validator';
 import { Community } from 'src/community/entities/community.entity';
 

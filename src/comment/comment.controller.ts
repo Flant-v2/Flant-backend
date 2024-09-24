@@ -1,5 +1,3 @@
-// src/comments/comment.controller.ts
-
 import {
   Controller,
   Get,
@@ -51,8 +49,6 @@ export class CommentController {
   })
   @ApiBody({ type: CreateCommentDto })
   async create(@Body() commentData: CreateCommentDto, @UserInfo() user: PartialUser): Promise<Comment> {
-    console.log(user);
-    console.log("----------000")
     return this.commentService.createComment(commentData);
   }
 

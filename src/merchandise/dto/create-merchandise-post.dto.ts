@@ -5,13 +5,8 @@ import { Merchandise } from '../entities/merchandise.entity';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
   IsString,
-  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class CreateMerchandiseDto extends PickType(Merchandise, [
   'merchandiseName',

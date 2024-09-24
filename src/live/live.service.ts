@@ -147,9 +147,6 @@ export class LiveService {
     await this.nodeMediaServer.on(
       'prePublish',
       async (id: string, streamPath: string) => {
-        console.log(
-          '-----------------------방송시작직전--------------------------',
-        );
         const session = this.nodeMediaServer.getSession(id);
         const streamKey = streamPath.split('/live/')[1].split('_')[0];
 

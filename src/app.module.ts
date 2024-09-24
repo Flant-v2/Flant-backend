@@ -53,7 +53,6 @@ import { CacheModule } from '@nestjs/cache-manager';
       ttl: 180 * 1000,
     }),
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
-    // ProductModule,
     OrderModule,
     AuthModule,
     UserModule,
@@ -62,7 +61,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     CommunityModule,
     AdminModule,
     MembershipModule,
-    CommentModule, // CommentModule 추가
+    CommentModule,
     CartModule,
     PostModule,
     LikeModule,

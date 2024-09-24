@@ -6,7 +6,6 @@ import {
   Entity,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 

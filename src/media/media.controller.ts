@@ -10,7 +10,6 @@ import {
   Query,
   UploadedFiles,
   UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { MediaService } from './media.service';
 import { CreateMediaDto } from './dto/create-media.dto';

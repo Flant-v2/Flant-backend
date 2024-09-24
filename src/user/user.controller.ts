@@ -13,8 +13,6 @@ import {
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { SearchUserParamsDto } from './dto/search-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from './interfaces/partial-user.entity';
@@ -37,8 +35,6 @@ export class UserController {
    */
   @Get('/me')
   async findOne(@UserInfo() user: PartialUser) {
-    console.log('------------------------------user');
-    console.log(user);
     const data = await this.userService.findMe(user.id);
     return {
       statusCode: HttpStatus.OK,
@@ -118,7 +114,6 @@ export class UserController {
 
   @Delete('/me')
   async deleteUser(@UserInfo() user: PartialUser) {
-    console.log(user.id);
     await this.userService.deleteUser(user.id);
 
     return {

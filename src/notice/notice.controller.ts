@@ -9,7 +9,6 @@ import {
   UseGuards,
   Query,
   UploadedFiles,
-  UseInterceptors,
 } from '@nestjs/common';
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
@@ -25,7 +24,6 @@ import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 
 @ApiTags('공지사항')
 @Controller('v1/notices')
-// @UseInterceptors(CacheInterceptor)
 export class NoticeController {
   constructor(private readonly noticeService: NoticeService) {}
 

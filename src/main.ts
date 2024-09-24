@@ -6,7 +6,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/node';
 import { AllExceptionsFilter } from './all-exceptions.filter';
-import { urlToHttpOptions } from 'url';
 import { urlencoded } from 'express';
 
 async function bootstrap() {

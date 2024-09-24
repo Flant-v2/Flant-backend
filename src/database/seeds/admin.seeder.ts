@@ -21,6 +21,5 @@ export default class AdminSeeder implements Seeder {
         deletedAt: null,
       },
     ]);
-    console.log("--------------------------")
   }
 }

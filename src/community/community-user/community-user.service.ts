@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommunityUser } from './entities/communityUser.entity';
-import { Reflector } from '@nestjs/core';
 import { User } from 'src/user/entities/user.entity';
 import { Community } from '../entities/community.entity';
 import { MESSAGES } from 'src/constants/message.constant';

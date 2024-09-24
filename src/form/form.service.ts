@@ -1,8 +1,5 @@
 import {
-  BadGatewayException,
   BadRequestException,
-  ConsoleLogger,
-  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,

@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
   JoinColumn,
   OneToMany,
-  OneToOne,
 } from 'typeorm';
 import { Community } from '../../entities/community.entity';
 import { User } from '../../../user/entities/user.entity';

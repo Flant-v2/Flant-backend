@@ -6,21 +6,16 @@ import {
   Patch,
   Param,
   Delete,
-  Req,
   UseGuards,
   Query,
   Res,
-  HttpStatus,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/user/types/user-role.type';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from '../auth/guards/optionaljwtauthguard ';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
@@ -101,13 +96,11 @@ export class CartController {
     @Res() res,
   ) {
     // 서비스 호출하여 로직 처리
-    console.log({ quantity });
     const data = await this.cartService.cartQuantity(
       user.id,
       +cartItemId,
       quantity,
     );
-    console.log({ quantity });
     return res.json(data);
   }
 }
