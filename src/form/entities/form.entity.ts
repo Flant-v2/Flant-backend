@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ApplyUser } from './apply-user.entity';
-import { IsEnum, IsNotEmpty } from 'class-validator';
+import { IsEnum } from 'class-validator';
 import { Community } from 'src/community/entities/community.entity';
 import { FormType } from '../types/form-type.enum';
 import { FormQuestion } from './form-question.entity';

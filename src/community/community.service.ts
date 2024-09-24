@@ -13,7 +13,6 @@ import { Repository } from 'typeorm';
 import { CommunityUser } from './community-user/entities/communityUser.entity';
 import { CommunityAssignDto } from './dto/community-assign.dto';
 import _ from 'lodash';
-import { Manager } from 'src/admin/entities/manager.entity';
 import { NotificationService } from './../notification/notification.service';
 import { MESSAGES } from 'src/constants/message.constant';
 import { isEmpty } from 'src/util/is-empty-util';
@@ -25,8 +24,6 @@ export class CommunityService {
     private readonly communityRepository: Repository<Community>,
     @InjectRepository(CommunityUser)
     private readonly communityUserRepository: Repository<CommunityUser>,
-    @InjectRepository(Manager)
-    private readonly managerRepository: Repository<Manager>,
     private readonly notificationService: NotificationService,
   ) {}
 

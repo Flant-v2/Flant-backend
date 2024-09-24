@@ -23,7 +23,6 @@ import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { ApiFile } from 'src/util/decorators/api-file.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
 import { CommunityUserRole } from './community-user/types/community-user-role.type';
 import {
@@ -31,8 +30,6 @@ import {
   logoImageUploadFactory,
 } from 'src/util/image-upload/create-s3-storage';
 import { CommunityUserService } from './community-user/community-user.service';
-import { FindCommunityUserDto } from './dto/find-community-user.dto';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('커뮤니티')
 @Controller('v1/communities')
@@ -137,7 +134,7 @@ export class CommunityController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiFile('logoImage', logoImageUploadFactory())
   @Patch(':communityId/logo')
   async updateLogo(
@@ -156,7 +153,7 @@ export class CommunityController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiFile('coverImage', coverImageUploadFactory())
   @Patch(':communityId/cover')
   async updateCover(
@@ -176,7 +173,7 @@ export class CommunityController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':communityId')
   async updateCommunity(
     @Param('communityId') communityId: number,
@@ -196,7 +193,7 @@ export class CommunityController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':communityId')
   remove(@Param('communityId', ParseIntPipe) communityId: number) {
     return this.communityService.removeCommunity(communityId);

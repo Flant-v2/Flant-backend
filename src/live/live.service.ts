@@ -10,7 +10,6 @@ import { Repository } from 'typeorm';
 import { Community } from 'src/community/entities/community.entity';
 import { CommunityUser } from 'src/community/community-user/entities/communityUser.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Artist } from 'src/admin/entities/artist.entity';
 import _ from 'lodash';
 import { Live } from './entities/live.entity';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
@@ -31,8 +30,6 @@ export class LiveService {
     private readonly communityUserRepository: Repository<CommunityUser>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Artist)
-    private readonly artistsRepository: Repository<Artist>,
     @InjectRepository(Live)
     private readonly liveRepository: Repository<Live>,
   ) {
@@ -60,11 +57,11 @@ export class LiveService {
         hls: true, // HLS 사용 설정
         allow_origin: '*',
       },
-      https: {
-        port: 8443,
-        key: '/etc/letsencrypt/live/live.flant.club/privkey.pem',
-        cert: '/etc/letsencrypt/live/live.flant.club/fullchain.pem',
-      },
+      // https: {
+      //   port: 8443,
+      //   key: '/etc/letsencrypt/live/live.flant.club/privkey.pem',
+      //   cert: '/etc/letsencrypt/live/live.flant.club/fullchain.pem',
+      // },
       trans: {
         ffmpeg: '/usr/bin/ffmpeg',
         //ffmpeg: '/Users/pc/Downloads/ffmpeg-2024-08-18-git-7e5410eadb-full_build/ffmpeg-2024-08-18-git-7e5410eadb-full_build/bin/ffmpeg.exe',
@@ -296,15 +293,7 @@ export class LiveService {
 
   async createLive(artistId: number, title: string, thumbnailImage: string) {
     // userId로 커뮤니티아티인지 확인 + 어느 커뮤니티인지 조회
-    const artist = await this.artistsRepository.findOne({
-      where: {
-        artistId,
-      },
-      relations: {
-        community: true,
-        communityUser: true,
-      },
-    });
+    const artist = true
     if (_.isNil(artist)) {
       throw new NotFoundException({
         status: 404,
@@ -314,7 +303,7 @@ export class LiveService {
     // 키 발급
     const streamKey = Crypto.randomBytes(20).toString('hex');
     const live = await this.liveRepository.save({
-      communityId: artist.communityId,
+      communityId: Number(1),
       artistId: artistId,
       title,
       thumbnailImage,

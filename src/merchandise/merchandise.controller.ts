@@ -13,7 +13,6 @@ import { MerchandiseService } from './merchandise.service';
 import { CreateMerchandiseDto } from './dto/create-merchandise-post.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UpdateMerchandiseDto } from './dto/update-merchandise.dto';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
@@ -33,7 +32,7 @@ export class MerchandiseController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/category')
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
@@ -65,7 +64,7 @@ export class MerchandiseController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async create(
     @Body() createMerchandiseDto: CreateMerchandiseDto,
@@ -109,7 +108,7 @@ export class MerchandiseController {
   @ApiBearerAuth()
   @Patch('/:merchandiseId')
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('merchandiseId') merchandiseId: string,
     @Body() updateMerchandiseDto: UpdateMerchandiseDto,
@@ -131,7 +130,7 @@ export class MerchandiseController {
   @ApiBearerAuth()
   @Delete('/:merchandiseId')
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   async remove(
     @Param('merchandiseId')
     merchandiseId: string,

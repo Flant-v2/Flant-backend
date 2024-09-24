@@ -23,12 +23,10 @@ import {
   mediaFileUploadFactory,
   thumbnailImageUploadFactory,
 } from 'src/util/image-upload/create-s3-storage';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('미디어')
 @Controller('v1/media')
@@ -46,7 +44,7 @@ export class MediaController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiMedia(
     [
       { name: 'mediaImage', maxCount: 3 },
@@ -108,7 +106,7 @@ export class MediaController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':mediaId/thumbnail')
   @ApiFile('thumbnailImage', thumbnailImageUploadFactory())
   async updateThumbnail(
@@ -129,7 +127,7 @@ export class MediaController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiMedia(
     [
       { name: 'mediaImage', maxCount: 3 },
@@ -178,7 +176,7 @@ export class MediaController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':mediaId')
   remove(@Param('mediaId') mediaId: number) {
     return this.mediaService.remove(+mediaId);

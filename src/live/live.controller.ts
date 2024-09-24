@@ -12,13 +12,9 @@ import {
 } from '@nestjs/common';
 import { LiveService } from './live.service';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { UserRole } from 'src/user/types/user-role.type';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CreateLiveDto } from './dtos/create-live.dto';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
@@ -36,7 +32,7 @@ export class LiveController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.ARTIST)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createLive(@UserInfo() user: PartialUser, @Body() createLiveDto: CreateLiveDto) {
     const { title, thumbnailImage } = createLiveDto;
@@ -112,7 +108,7 @@ export class LiveController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch('/:liveId')
   async updateLive(
     @UserInfo() user: PartialUser,

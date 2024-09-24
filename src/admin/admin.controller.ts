@@ -1,4 +1,4 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Get, Post } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { ApiTags } from "@nestjs/swagger";
 
@@ -8,4 +8,9 @@ export class AdminController {
   constructor(
     private readonly adminService: AdminService,
   ) {}
+
+  @Get()
+  async findAll(){
+    return this.adminService.findAll()
+  }
 }
