@@ -1,8 +1,5 @@
 import {
-  BadGatewayException,
   BadRequestException,
-  ConsoleLogger,
-  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,
@@ -12,8 +9,6 @@ import { UpdateFormDto } from './dto/update-form.dto';
 import { Form } from './entities/form.entity';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { Manager } from '../admin/entities/manager.entity';
 import { Community } from 'src/community/entities/community.entity';
 import { ApplyType } from './types/form-apply-type.enum';
 import { ApplyUser } from './entities/apply-user.entity';
@@ -29,8 +24,6 @@ export class FormService {
     private readonly applyUserRepository: Repository<ApplyUser>,
     @InjectRepository(FormQuestion)
     private readonly formQuestionRepository: Repository<FormQuestion>,
-    @InjectRepository(Manager)
-    private readonly managerRepository: Repository<Manager>,
     @InjectRepository(Community)
     private readonly communityRepository: Repository<Community>,
     private dataSource: DataSource,
@@ -59,12 +52,7 @@ export class FormService {
     }
 
     //userId로 매니저 테이블의 정보를 가져와 해당 매니저 등록된 커뮤니티ID 와 입력한 커뮤니티 ID 값이 일치한지 확인
-    const manager = await this.managerRepository.findOne({
-      where: { managerId },
-    });
-    if (manager.communityId !== communityId) {
-      throw new NotFoundException('해당 커뮤니티에 권한이 없는 매니저입니다.');
-    }
+
 
     //중복 제목 체크
     const titleCheck = await this.formRepository.findOne({
@@ -84,7 +72,6 @@ export class FormService {
       spareApply,
       startTime,
       endTime,
-      manager,
       community,
     });
 
@@ -111,7 +98,7 @@ export class FormService {
       message: '폼 생성이 완료되었습니다',
       data: {
         formId: createForm.id,
-        managerId: createForm.manager.managerId,
+        managerId: createForm,
         communityId: createForm.community.communityId,
         title: createForm.title,
         content: createForm.content,
@@ -192,9 +179,6 @@ export class FormService {
       throw new NotFoundException('폼이 존재하지 않습니다.');
     }
     // form의 작성자와 수정 요청한 사용자가 일치한지 확인
-    if (form.manager.managerId !== managerId) {
-      throw new ForbiddenException('수정 권한이 없습니다.');
-    }
 
     if (title !== undefined) {
       form.title = title;
@@ -313,9 +297,7 @@ export class FormService {
     }
     const managerId = user?.roleInfo?.roleId;
     // form의 작성자와 삭제 요청한 사용자가 일치한지 확인
-    if (form.manager.managerId !== managerId) {
-      throw new ForbiddenException('수정 권한이 없습니다.');
-    }
+
 
     await this.formRepository.softDelete(formId);
 

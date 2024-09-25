@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MerchandiseImage } from './entities/merchandise-image.entity';
 import { MerchandiseOption } from './entities/marchandise-option.entity';
 import { Merchandise } from './entities/merchandise.entity';
-import { Manager } from 'src/admin/entities/manager.entity';
 import { User } from 'src/user/entities/user.entity';
 import { CommunityUserModule } from 'src/community/community-user/community-user.module';
 import { AdminModule } from 'src/admin/admin.module';
@@ -19,7 +18,6 @@ import { Community } from 'src/community/entities/community.entity';
       MerchandiseImage,
       MerchandiseOption,
       Merchandise,
-      Manager,
       User,
       Community
     ]),

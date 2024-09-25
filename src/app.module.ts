@@ -22,7 +22,6 @@ import { join } from 'path';
 import { PostModule } from './post/post.module';
 import { LikeModule } from './like/like.module';
 import { NoticeModule } from './notice/notice.module';
-import { MediaModule } from './media/media.module';
 import { LiveModule } from './live/live.module';
 import { CommunityUserModule } from './community/community-user/community-user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -53,7 +52,6 @@ import { CacheModule } from '@nestjs/cache-manager';
       ttl: 180 * 1000,
     }),
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
-    // ProductModule,
     OrderModule,
     AuthModule,
     UserModule,
@@ -62,12 +60,11 @@ import { CacheModule } from '@nestjs/cache-manager';
     CommunityModule,
     AdminModule,
     MembershipModule,
-    CommentModule, // CommentModule 추가
+    CommentModule,
     CartModule,
     PostModule,
     LikeModule,
     NoticeModule,
-    MediaModule,
     PostModule,
     LiveModule,
     CommunityUserModule,

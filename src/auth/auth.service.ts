@@ -91,10 +91,8 @@ export class AuthService {
   ) {
     const { accessToken, ...accessOption } = this.createAccessToken(userId);
     const { refreshToken, ...refreshOption } = this.createRefreshToken(userId);
-    console.log('-------------------------------------');
     await this.notUserCartSave(userId, cookies);
     await this.setCurrentRefreshToken(refreshToken, accessToken, userId);
-    console.log(accessToken);
     res.cookie('Authentication', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
     // 쿠키 삭제
@@ -106,7 +104,6 @@ export class AuthService {
   //로그아웃
   async signOut(req) {
     const { accessOption, refreshOption } = this.getCookiesForLogOut();
-    console.log(req);
     await this.removeRefreshToken(req.id);
 
     return { accessOption, refreshOption };
@@ -140,7 +137,6 @@ export class AuthService {
     if (!req.user) {
       return MESSAGES.AUTH.COMMON.OAUTH_GOOGLE.NOT_FOUND;
     }
-    console.log(req);
     // 만약 유저테이블에서 같은 이메일이 있다면 false반환
     const existedUser = await this.userRepository.findOneBy({
       email: req.user.email,
@@ -168,7 +164,6 @@ export class AuthService {
       secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: this.configService.get<string>('JWT_EXPIRES_IN'),
     });
-    console.log(accessToken);
     // accesstoken을 쿠키에 담아 클라이언트에 전달하기 위함
     return {
       accessToken: accessToken,
@@ -185,7 +180,6 @@ export class AuthService {
       secret: this.configService.get<string>('RElFRESH_SECRET'),
       expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRES_IN'),
     });
-    console.log(refreshToken);
     return {
       refreshToken: refreshToken,
       domain: 'localhost', // 추후 도메인 수정 할 것.
@@ -298,7 +292,6 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       where: { userId },
     });
-    console.log(guestCart);
     let cart = await this.cartRepository.findOne({
       where: { user: { userId } },
       relations: ['user'],
@@ -311,7 +304,6 @@ export class AuthService {
         user,
       });
     }
-    console.log(cart);
     // 쿠키 내 각 상품 id + 옵션 id 데이터를 추출하여 userCartItem에 저장하기
     for (const item of guestCart) {
       // merchandisePost 추출
@@ -322,9 +314,6 @@ export class AuthService {
       const merchandiseOption = await this.merchandiseOptionRepository.findOne({
         where: { id: item.merchandiseOptionId },
       });
-      console.log('0000000000000000000000000000000');
-      console.log(merchandisePost);
-      console.log(merchandiseOption);
       // userCart에 저장
       await this.cartItemRepository.save({
         cartId: cart.id,
@@ -333,6 +322,5 @@ export class AuthService {
         quantity: item.quantity,
       });
     }
-    console.log('test');
   }
 }

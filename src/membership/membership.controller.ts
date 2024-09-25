@@ -9,7 +9,6 @@ import {
   Get,
   Body,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { MembershipService } from './membership.service';
 import { UserRole } from 'src/user/types/user-role.type';
@@ -17,9 +16,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { MembershipDto } from './dtos/membership.dto';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 
@@ -58,7 +55,7 @@ export class MembershipController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles()
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createMembership(
     @UserInfo() user: PartialUser,

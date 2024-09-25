@@ -11,15 +11,11 @@ import { Membership } from './membership/entities/membership.entity';
 import { Community } from './community/entities/community.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { Comment } from './comment/entities/comment.entity';
-import { Manager } from './admin/entities/manager.entity';
-import { Artist } from './admin/entities/artist.entity';
 import { Cart } from './cart/entities/cart.entity';
 import { CartItem } from './cart/entities/cart.item.entity';
 import { Form } from './form/entities/form.entity';
 import { ApplyUser } from './form/entities/apply-user.entity';
 import { Like } from './like/entities/like.entity';
-import { Media } from './media/entities/media.entity';
-import { MediaFile } from './media/entities/media-file.entity';
 import { Merchandise } from './merchandise/entities/merchandise.entity';
 import { MerchandiseImage } from './merchandise/entities/merchandise-image.entity';
 import { MerchandiseOption } from './merchandise/entities/marchandise-option.entity';
@@ -36,9 +32,8 @@ import UserSeeder from './database/seeds/user.seeder';
 import CommunityUserSeeder from './database/seeds/community-user.seeder';
 import CommunitySeeder from './database/seeds/community.seeder';
 import MembershipSeeder from './database/seeds/membership.seeder';
-import ArtistSeeder from './database/seeds/artist.seeder';
 import { MerchandiseCategory } from './merchandise/entities/merchandise-category.entity';
-import ManagerSeeder from './database/seeds/manager.seeder';
+
 config();
 const configService = new ConfigService();
 const options: DataSourceOptions & SeederOptions = {
@@ -50,7 +45,6 @@ const options: DataSourceOptions & SeederOptions = {
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_NAME'),
   entities: [
-    Artist,
     Cart,
     CartItem,
     Comment,
@@ -61,16 +55,11 @@ const options: DataSourceOptions & SeederOptions = {
     FormQuestion,
     Like,
     Live,
-    Manager,
-    Media,
-    MediaFile,
     Membership,
     MembershipPayment,
     Membership,
     Community,
     Comment,
-    Artist,
-    Manager,
     Merchandise,
     MerchandiseImage,
     MerchandiseOption,
@@ -87,7 +76,7 @@ const options: DataSourceOptions & SeederOptions = {
     Refreshtoken,
   ],
   seedTracking: true, // seed데이터가 이미 있다면 삽입 x. 중복 삽입 방지
-  seeds: [AdminSeeder, UserSeeder, CommunitySeeder, CommunityUserSeeder, ArtistSeeder, ManagerSeeder, MembershipSeeder],
+  seeds: [AdminSeeder, UserSeeder, CommunitySeeder, CommunityUserSeeder, MembershipSeeder],
 };
 
 export const dataSource = new DataSource(options);

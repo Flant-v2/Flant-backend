@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,
@@ -8,11 +7,10 @@ import {
 import { CreateMerchandiseDto } from './dto/create-merchandise-post.dto';
 import { Merchandise } from './entities/merchandise.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { MerchandiseImage } from './entities/merchandise-image.entity';
 import { MerchandiseOption } from './entities/marchandise-option.entity';
 import { UpdateMerchandiseDto } from './dto/update-merchandise.dto';
-import * as Flatted from 'flatted';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import _ from 'lodash';
 import { Community } from 'src/community/entities/community.entity';
@@ -267,11 +265,9 @@ export class MerchandiseService {
 
     if (optionName !== undefined) {
       // 기존 옵션 삭제
-      console.log('---------');
       await this.merchandiseOptionRepository.delete({
         merchandiseId,
       });
-      console.log('---');
       // 옵션 재생성
       await this.merchandiseOptionRepository.save(
         optionName.map((optionName, price) => ({

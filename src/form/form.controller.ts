@@ -14,15 +14,11 @@ import { FormService } from './form.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { UserRole } from 'src/user/types/user-role.type';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import { CommunityUserRoles } from 'src/auth/decorators/community-user-roles.decorator';
 import { CommunityUserRole } from 'src/community/community-user/types/community-user-role.type';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 
 @ApiTags('Forms')
 @Controller('v1/forms')
@@ -36,7 +32,7 @@ export class FormController {
    */
   @ApiBearerAuth()
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
     @UserInfo() user: PartialUser,
@@ -64,7 +60,7 @@ export class FormController {
   @ApiBearerAuth()
   @Patch('/:formId')
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('formId', ParseIntPipe) formId: number,
     @Body() updateFormDto: UpdateFormDto,
@@ -81,7 +77,7 @@ export class FormController {
   @ApiBearerAuth()
   @Delete('/:formId')
   @CommunityUserRoles(CommunityUserRole.MANAGER)
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   async remove(
     @Param('formId', ParseIntPipe) formId: number,
     @UserInfo() user: PartialUser,

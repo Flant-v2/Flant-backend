@@ -1,7 +1,6 @@
 import { Controller, Get, Res, Param } from '@nestjs/common';
 import { Response } from 'express';
 import { NotificationService } from './notification.service';
-import { Observable, map } from 'rxjs';
 import { Subscription } from 'rxjs';
 @Controller('notification')
 export class NotificationController {

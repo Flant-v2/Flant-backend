@@ -1,23 +1,17 @@
 import {
   BadRequestException,
-  ConsoleLogger,
   HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
 import { User } from 'src/user/entities/user.entity';
 import { Cart } from './entities/cart.entity';
 import { CartItem } from './entities/cart.item.entity';
-import { DataSource, getConnection, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Merchandise } from 'src/merchandise/entities/merchandise.entity';
 import { MerchandiseOption } from 'src/merchandise/entities/marchandise-option.entity';
-import { stat } from 'fs';
-import { query } from 'express';
-import { HttpRequest } from 'aws-sdk';
-import { catchError } from 'rxjs';
 import { UpdateQuantity } from './types/update-quantity.type';
 
 @Injectable()
@@ -67,9 +61,6 @@ export class CartService {
     if (quantity <= 0) {
       throw new BadRequestException('수량을 입력해주세요');
     }
-    console.log(
-      '장바구니 추가 트랜잭션 시작--------------------------------------',
-    );
     //트랜잭션 시작
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.startTransaction();
@@ -90,7 +81,6 @@ export class CartService {
         cart = await queryRunner.manager.save(Cart, { user });
       }
 
-      console.log('---------------장바구니생성완료------------');
       // 장바구니에 입력한 동일 상품 id && 옵션 id 있는지 확인
       const merchandiseCheck = await queryRunner.manager.findOne(CartItem, {
         where: {
@@ -117,8 +107,6 @@ export class CartService {
 
       // 총 금액 합계
       const totalPrice = merchandise.price * cartItem.quantity;
-      console.log('---------------장바구니추가완료------------');
-      console.log(cartItem);
 
       await queryRunner.commitTransaction();
       return {
@@ -192,7 +180,6 @@ export class CartService {
     if (!cartItem) {
       throw new NotFoundException('해당 상품은 장바구니에 존재하지 않습니다.');
     }
-    console.log(cartItem);
     await this.cartItemRepository.delete({
       id: cartItemId,
     });
@@ -216,7 +203,6 @@ export class CartService {
     if (!cart) {
       throw new NotFoundException('장바구니가 존재하지 않습니다.');
     }
-    console.log('-----------------');
     // 조회된 cart와 입력한 cartId를 통해 CartItem을 조회
     const cartItem = await this.cartItemRepository.findOne({
       where: { cart, id: cartItemId },
@@ -226,8 +212,6 @@ export class CartService {
     if (!cartItem) {
       throw new NotFoundException('해당 상품은 장바구니에 존재하지 않습니다.');
     }
-    console.log(cartItem);
-    console.log(quantity);
     let updatedQuantity;
     if (quantity == UpdateQuantity.INCREMENT) {
       updatedQuantity = cartItem.quantity + 1;

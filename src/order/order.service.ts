@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConsoleLogger,
   HttpStatus,
   Injectable,
   NotAcceptableException,

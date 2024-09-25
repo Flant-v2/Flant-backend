@@ -10,9 +10,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { CommunityUser } from '../../community/community-user/entities/communityUser.entity';
-import { Artist } from '../../admin/entities/artist.entity';
-import { join } from 'path';
-//import { Post } from 'src/post/entities/post.entity';
 
 @Entity('comments')
 export class Comment {
@@ -21,9 +18,6 @@ export class Comment {
 
   @Column({ unsigned: true })
   postId: number;
-
-  // @ManyToOne(() => Post, (post) => post.comments)
-  // post: Post;
 
   @Column({ unsigned: true })
   communityUserId: number;
@@ -36,12 +30,12 @@ export class Comment {
   @Column({ unsigned: true, nullable: true })
   artistId: number | null;
 
-  @ManyToOne(() => Artist, (artist) => artist.comments, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  @JoinColumn({name: 'artist_id'})
-  artist: Artist | null;
+  // @ManyToOne(() => Artist, (artist) => artist.comments, {
+  //   nullable: true,
+  //   onDelete: 'SET NULL',
+  // })
+  // @JoinColumn({name: 'artist_id'})
+  // artist: Artist | null;
 
   @Column('text')
   comment: string;
