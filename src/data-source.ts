@@ -16,8 +16,6 @@ import { CartItem } from './cart/entities/cart.item.entity';
 import { Form } from './form/entities/form.entity';
 import { ApplyUser } from './form/entities/apply-user.entity';
 import { Like } from './like/entities/like.entity';
-import { Media } from './media/entities/media.entity';
-import { MediaFile } from './media/entities/media-file.entity';
 import { Merchandise } from './merchandise/entities/merchandise.entity';
 import { MerchandiseImage } from './merchandise/entities/merchandise-image.entity';
 import { MerchandiseOption } from './merchandise/entities/marchandise-option.entity';
@@ -57,8 +55,6 @@ const options: DataSourceOptions & SeederOptions = {
     FormQuestion,
     Like,
     Live,
-    Media,
-    MediaFile,
     Membership,
     MembershipPayment,
     Membership,

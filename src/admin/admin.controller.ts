@@ -11,6 +11,6 @@ export class AdminController {
 
   @Get()
   async findAll(){
-    return this.adminService.findAll()
+    return await this.adminService.findAll()
   }
 }
