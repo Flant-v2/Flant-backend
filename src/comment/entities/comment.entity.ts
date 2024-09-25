@@ -70,7 +70,6 @@ export class Comment {
   parent: Comment | null;
 
   //신고 연결
-  @OneToOne(() => Report, (report) => report.comment, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
-  report: Report;
+  @OneToMany(() => Report, (report) => report.comment, { onDelete: 'CASCADE' })
+  report: Report[];
 }

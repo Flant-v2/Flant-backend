@@ -19,6 +19,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiQuery,
   ApiTags,
@@ -49,19 +50,19 @@ export class PostController {
   /**
    * 게시글 작성
    * @param files
-   * @param req
-   * @param communityId
-   * @param createPostDto
+   * @param CreatePostDto
    * @returns
    */
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiFiles('postImage', 3, postImageUploadFactory())
+  @ApiOperation({ summary: '게시글 작성' })
+  @ApiBody({ type: CreatePostDto }) // DTO를 명시적으로 추가
   @Post()
   async create(
+    @Body() createPostDto: CreatePostDto,
     @UploadedFiles() files: { postImage?: Express.MulterS3.File[] },
     @UserInfo() user: PartialUser,
-    @Body() createPostDto,
   ) {
     let imageUrl = undefined;
     if (files && files.postImage && files.postImage.length > 0) {
@@ -182,6 +183,7 @@ export class PostController {
   }
 
   @Post('/:postId/comments')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get comments by post ID' })
   @UseGuards(JwtAuthGuard, CommunityUserGuard)
   async createCommentByPost(

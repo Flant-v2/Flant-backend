@@ -80,7 +80,6 @@ export class Post {
   communityUser: CommunityUser;
 
   //신고 연결
-  @OneToOne(() => Report, (report) => report.post, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
-  report: Report;
+  @OneToMany(() => Report, (report) => report.post, { onDelete: 'CASCADE' })
+  report: Report[];
 }

@@ -49,9 +49,11 @@ export class PostService {
     createPostDto: CreatePostDto,
     imageUrl: string[] | undefined,
   ) {
+    console.log(createPostDto.communityId);
     const communityUser = await this.communityUserRepository.findOne({
       where: { userId: userId, communityId: +createPostDto.communityId },
     });
+    console.log('Abcd');
     if (!communityUser) {
       throw new BadRequestException(MESSAGES.POST.CREATE.BAD_REQUEST);
     }

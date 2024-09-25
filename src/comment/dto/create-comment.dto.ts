@@ -25,6 +25,5 @@ export class CreateCommentDto {
 
   @ApiProperty({ description: 'The URL of the image', required: false })
   @IsOptional()
-  @IsUrl()
   imageUrl: string | null;
 }

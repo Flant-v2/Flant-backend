@@ -16,9 +16,13 @@ import { CommunityUser } from 'src/community/community-user/entities/communityUs
 import { Post } from 'src/post/entities/post.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
 
+@Entity('reports')
 export class Report {
   @PrimaryGeneratedColumn({ unsigned: true })
   reportId: number;
+
+  @Column({ unsigned: true })
+  communityId: number;
 
   @Column({ unsigned: true })
   communityUserId: number;
@@ -29,13 +33,13 @@ export class Report {
   @Column({ unsigned: true, nullable: true })
   commentId?: number;
 
-  @Column({ type: 'enum', enum: ReportTypes, default: 'DisallowedActivities' })
+  @Column({ type: 'enum', enum: ReportTypes })
   type: ReportTypes;
 
-  @Column({ unsigned: true })
+  @Column()
   content: string;
 
-  @Column({ unsigned: true, default: 'true' })
+  @Column({ default: true })
   isValidReport: boolean;
 
   @CreateDateColumn()
@@ -45,16 +49,16 @@ export class Report {
   @ManyToOne(() => CommunityUser, (communityUser) => communityUser.report, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'community_user_id' }) // JoinColumn 추가
   communityUser: CommunityUser;
 
   //댓글 연결
-  @OneToOne(() => Comment, (comment) => comment.report, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => Comment, (comment) => comment.report, {
+    onDelete: 'CASCADE',
+  })
   comment: Comment;
 
   //포스터 연결
-  @OneToOne(() => Post, (post) => post.report, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => Post, (post) => post.report, { onDelete: 'CASCADE' })
   post: Post;
 }
