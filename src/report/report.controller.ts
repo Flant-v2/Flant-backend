@@ -15,6 +15,9 @@ import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRole } from 'src/user/types/user-role.type';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('신고')
 @ApiBearerAuth()
@@ -74,7 +77,8 @@ export class ReportController {
       message: '댓글을 정상적으로 신고했습니다.',
     };
   }
-
+  @Roles(UserRole.Admin)
+  @UseGuards(RolesGuard)
   @ApiOperation({ summary: '게시물 신고내역 전체 조회' })
   @Get('communities/:communityId/posts')
   async findAllPostReport(@Param('communityId') communityId: number) {
@@ -83,40 +87,66 @@ export class ReportController {
 
   @ApiOperation({ summary: '게시물 신고내역 상세 조회' })
   @Get('communities/:communityId/posts/:postId')
-  findOnePostReport(
+  async findOnePostReport(
     @Param('postId') postId: number,
     @Param('communityId') communityId: number,
   ) {
-    return this.reportService.findOnePostReport(communityId, postId);
+    return await this.reportService.findOnePostReport(communityId, postId);
   }
-
+  @Roles(UserRole.Admin)
+  @UseGuards(RolesGuard)
   @ApiOperation({ summary: '댓글 신고내역 전체 조회' })
   @Get('communities/:communityId/comments')
-  findAllCommentReport(@Param('communityId') communityId: number) {
-    return this.reportService.findAllCommentReport(communityId);
+  async findAllCommentReport(@Param('communityId') communityId: number) {
+    return await this.reportService.findAllCommentReport(communityId);
   }
 
   @ApiOperation({ summary: '댓글 신고내역 상세 조회' })
   @Get('communities/:communityId/comments/:commentId')
-  findOneCommentReport(
+  async findOneCommentReport(
     @Param('commentId') commentId: number,
     @Param('communityId') communityId: number,
   ) {
-    return this.reportService.findOneCommentReport(communityId, commentId);
+    return await this.reportService.findOneCommentReport(
+      communityId,
+      commentId,
+    );
   }
 
-  ////////////////////////////////////////////////////////////////////////////////
-  // 사용자 정지 등록하기
-  /*
-  @Post()
-  blockUser(@Body() createReportDto: CreateReportDto) {
-    return this.reportService.create(createReportDto);
+  // 사용자 정지에 관한 API를 어떤 파일에 둘건지 추후 생각해봐야할듯.
+  // 현재로서는 report에 두는게 맞나? 생각이듬
+  @Roles(UserRole.Admin)
+  @UseGuards(RolesGuard)
+  @ApiOperation({ summary: '사용자 정지 등록하기' })
+  @Post('getBan/communities/:communityId/communityUser/:communityUserId')
+  async setBanUser(
+    @Param('communityId') communityId: number,
+    @Param('communityUserId') communityUserId: number,
+  ) {
+    const setBanUser = await this.reportService.setBanUser(
+      communityId,
+      communityUserId,
+    );
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: '사용자 정지 성공했습니다.',
+    };
   }
-
-  // 사용자 정지 해제하기
-  @Delete(':id')
-  blockRemoveUser(@Param('id') id: string) {
-    return this.reportService.remove(+id);
+  @Roles(UserRole.Admin)
+  @UseGuards(RolesGuard)
+  @ApiOperation({ summary: '사용자 정지 해제하기' })
+  @Delete('deleteBan/communities/:communityId/communityUser/:communityUserId')
+  async removeBanUser(
+    @Param('communityId') communityId: number,
+    @Param('communityUserId') communityUserId: number,
+  ) {
+    const removeBanUser = await this.reportService.removeBanUser(
+      communityId,
+      communityUserId,
+    );
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: '사용자 정지를 해제했습니다.',
+    };
   }
-    */
 }
