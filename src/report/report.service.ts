@@ -355,7 +355,7 @@ export class ReportService {
     // 정지를 해제시키는 로직 = 커뮤니티 유저 role 바꾸기 (Banned => User )
     const updateCommunityUser = await this.communityUserRepository.update(
       communityUserId,
-      { role: CommunityUserRole.User },
+      { role: CommunityUserRole.USER },
     );
 
     return updateCommunityUser;
