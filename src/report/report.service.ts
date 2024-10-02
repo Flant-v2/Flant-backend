@@ -187,11 +187,10 @@ export class ReportService {
     const existedReport = await this.reportRepository.findOneBy({
       communityId,
       postId,
-      commentId: null,
+      commentId,
       communityUserId: existedCommunityUser.communityUserId,
     });
-    if (!existedReport)
-      throw new ConflictException('이미 신고한 게시물입니다.');
+    if (existedReport) throw new ConflictException('이미 신고한 댓글입니다.');
     // 유효성검사 end
 
     // 1시간 안에 신고 30개 이상 받을 시, 정지 로직 start
@@ -201,11 +200,10 @@ export class ReportService {
     if (!this.reportCommentMap.has(commentId)) {
       this.reportCommentMap.set(commentId, []);
     }
-    const reportList = this.reportPostMap.get(commentId);
+    const reportList = this.reportCommentMap.get(commentId);
     // 현재 신고 시간 추가
     reportList.push(currentTime);
     console.log(reportList);
-
     // 1시간 후 신고 제거 타이머 설정
     setTimeout(
       () => {

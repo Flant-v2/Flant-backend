@@ -58,14 +58,14 @@ export class ReportController {
 
   @ApiOperation({ summary: '댓글 신고하기' })
   @Post('communities/:communityId/posts/:postId/comments/:commentId')
-  reportComment(
+  async reportComment(
     @Body() createReportDto: CreateReportDto,
     @Param('communityId') communityId: number,
     @Param('postId') postId: number,
     @Param('commentId') commentId: number,
     @UserInfo() user: PartialUser,
   ) {
-    const data = this.reportService.reportComment(
+    const data = await this.reportService.reportComment(
       createReportDto,
       communityId,
       postId,
@@ -75,14 +75,22 @@ export class ReportController {
     return {
       statusCode: HttpStatus.CREATED,
       message: '댓글을 정상적으로 신고했습니다.',
+      data: data,
     };
   }
+
   @Roles(UserRole.Admin)
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: '게시물 신고내역 전체 조회' })
   @Get('communities/:communityId/posts')
   async findAllPostReport(@Param('communityId') communityId: number) {
-    return await this.reportService.findAllPostReport(communityId);
+    const data = await this.reportService.findAllPostReport(communityId);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: '게시물 신고내역 전체 조회에 성공했습니다.',
+      data: data,
+    };
   }
 
   @ApiOperation({ summary: '게시물 신고내역 상세 조회' })
@@ -91,14 +99,29 @@ export class ReportController {
     @Param('postId') postId: number,
     @Param('communityId') communityId: number,
   ) {
-    return await this.reportService.findOnePostReport(communityId, postId);
+    const data = await this.reportService.findOnePostReport(
+      communityId,
+      postId,
+    );
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: '게시물 신고내역 상세 조회에 성공했습니다.',
+      data: data,
+    };
   }
+
   @Roles(UserRole.Admin)
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: '댓글 신고내역 전체 조회' })
   @Get('communities/:communityId/comments')
   async findAllCommentReport(@Param('communityId') communityId: number) {
-    return await this.reportService.findAllCommentReport(communityId);
+    const data = await this.reportService.findAllCommentReport(communityId);
+    return {
+      statusCode: HttpStatus.OK,
+      message: '댓글 신고내역 전체 조회에 성공했습니다.',
+      data: data,
+    };
   }
 
   @ApiOperation({ summary: '댓글 신고내역 상세 조회' })
@@ -107,10 +130,15 @@ export class ReportController {
     @Param('commentId') commentId: number,
     @Param('communityId') communityId: number,
   ) {
-    return await this.reportService.findOneCommentReport(
+    const data = await this.reportService.findOneCommentReport(
       communityId,
       commentId,
     );
+    return {
+      statusCode: HttpStatus.OK,
+      message: '댓글 신고내역 상세 조회에 성공했습니다.',
+      data: data,
+    };
   }
 
   // 사용자 정지에 관한 API를 어떤 파일에 둘건지 추후 생각해봐야할듯.
@@ -132,6 +160,7 @@ export class ReportController {
       message: '사용자 정지 성공했습니다.',
     };
   }
+
   @Roles(UserRole.Admin)
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: '사용자 정지 해제하기' })
@@ -145,7 +174,7 @@ export class ReportController {
       communityUserId,
     );
     return {
-      statusCode: HttpStatus.CREATED,
+      statusCode: HttpStatus.NO_CONTENT,
       message: '사용자 정지를 해제했습니다.',
     };
   }
