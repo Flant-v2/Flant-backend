@@ -1,5 +1,3 @@
-import { PickType } from '@nestjs/swagger';
-
 import {
   IsArray,
   IsEnum,

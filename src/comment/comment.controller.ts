@@ -1,5 +1,3 @@
-// src/comments/comment.controller.ts
-
 import {
   Controller,
   Get,

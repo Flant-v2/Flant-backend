@@ -1,5 +1,5 @@
 export enum CommunityUserRole {
-  User = 'User',
+  USER = 'USER',
   MANAGER = 'MANAGER',
   ARTIST = 'ARTIST',
   BANNED = 'BANNED',

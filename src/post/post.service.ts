@@ -14,15 +14,13 @@ import { IsNull, Not, Repository } from 'typeorm';
 import { Post } from './entities/post.entity';
 import { PostImage } from './entities/post-image.entity';
 import { CommunityUser } from 'src/community/community-user/entities/communityUser.entity';
-import { Artist } from 'src/admin/entities/artist.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
-import _, { isNull } from 'lodash';
+import _ from 'lodash';
 import { User } from 'src/user/entities/user.entity';
-import { Manager } from 'src/admin/entities/manager.entity';
 import { MESSAGES } from 'src/constants/message.constant';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
 import { CreateCommentDto } from 'src/comment/dto/create-comment.dto';
-import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class PostService {
@@ -33,12 +31,8 @@ export class PostService {
     private readonly postImageRepository: Repository<PostImage>,
     @InjectRepository(CommunityUser)
     private readonly communityUserRepository: Repository<CommunityUser>,
-    @InjectRepository(Artist)
-    private readonly artistRepository: Repository<Artist>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Manager)
-    private readonly managerRepository: Repository<Manager>,
     @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
     @Inject('CACHE_MANAGER') private cacheManager: Cache,
@@ -57,17 +51,8 @@ export class PostService {
     if (!communityUser) {
       throw new BadRequestException(MESSAGES.POST.CREATE.BAD_REQUEST);
     }
-    const isArtist = await this.artistRepository.findOne({
-      where: {
-        communityUserId: communityUser.communityUserId,
-        communityId: +createPostDto.communityId,
-      },
-    });
 
     let artistId: number;
-    if (isArtist) {
-      artistId = isArtist.artistId;
-    }
     const saveData = await this.postRepository.save({
       communityId: +createPostDto.communityId,
       communityUserId: communityUser.communityUserId,
@@ -84,6 +69,7 @@ export class PostService {
       }
     }
 
+    const isArtist = false
     const postType = Boolean(isArtist) ? 'artist' : 'community';
     const cacheKey = `posts_${postType}_${createPostDto.communityId}`;
     await this.cacheManager.del(cacheKey);
@@ -274,12 +260,8 @@ export class PostService {
     const isAdmin = await this.userRepository.findOne({
       where: { userId: userId },
     });
-    const isManager = await this.managerRepository.findOne({
-      where: { managerId: managerId },
-    });
     if (
       postData.communityUserId == userData.communityUserId ||
-      isManager.communityId == postData.communityId ||
       isAdmin.role == 'Admin'
     ) {
       await this.postRepository.delete(postId);
@@ -315,9 +297,6 @@ export class PostService {
 
     const communityUser = await this.communityUserRepository.findOne({
       where: { userId: userId, communityId: createCommentDto.communityId },
-      relations: {
-        artist: true,
-      },
     });
     if (!communityUser) {
       throw new UnauthorizedException(MESSAGES.COMMENT.CREATE.BAD_REQUEST);
@@ -330,7 +309,7 @@ export class PostService {
     const requestData = {
       postId,
       communityUserId,
-      artistId: communityUser.artist?.artistId,
+      artistId: communityUser.communityId,
       comment: createCommentDto.comment,
     };
 

@@ -20,9 +20,7 @@ import { Form } from 'src/form/entities/form.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { MembershipPayment } from 'src/membership/entities/membership-payment.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Artist } from 'src/admin/entities/artist.entity';
 import { Live } from 'src/live/entities/live.entity';
-import { Manager } from './../../admin/entities/manager.entity';
 import { Merchandise } from 'src/merchandise/entities/merchandise.entity';
 import { IsNotEmptyConstraint } from 'src/util/decorators/is-not-emtpy-constraint.decorator';
 
@@ -102,14 +100,8 @@ export class Community {
   )
   membershipPayment: MembershipPayment[];
 
-  @OneToMany(() => Artist, (artist) => artist.community)
-  artist: Artist[];
-
   @OneToMany(() => Live, (live) => live.community)
   live: Live[];
-
-  @OneToMany(() => Manager, (manager) => manager.community)
-  manager: Manager[];
 
   @OneToMany(() => Merchandise, (merchandise) => merchandise.community)
   merchandise: Merchandise[];

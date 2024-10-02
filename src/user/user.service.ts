@@ -31,11 +31,9 @@ export class UserService {
 
   // 내 정보 조회
   async findMe(userId: number) {
-    console.log(userId);
     const user = await this.userRepository.findOne({
       where: { userId: userId },
     });
-    console.log(user);
     if (!user) {
       throw new NotFoundException(MESSAGES.USER.COMMON.NOT_FOUND);
     }
@@ -97,10 +95,6 @@ export class UserService {
   // 내 정보 수정
   async updateUser(userId: number, updateUserDto: UpdateUserDto) {
     const { newUserName, newPassword, confirmNewPassword } = updateUserDto;
-    console.log(updateUserDto);
-    console.log('zzzzzzzzzzz');
-    console.log(newUserName);
-    console.log('bb');
 
     // 아이디 변경의 경우
     if (
@@ -112,7 +106,6 @@ export class UserService {
       const whereContent = {
         ...(newUserName && { name: newUserName }),
       };
-      console.log('zzzzzzzzzzz');
       const updateUser = await this.userRepository.update(
         whereCondition,
         whereContent,
@@ -130,7 +123,6 @@ export class UserService {
         );
       }
     }
-    console.log('zzzzzzzzzzz');
     // 비밀번호 hash 처리
     const hashRounds = this.configService.get<number>('PASSWORD_HASH');
     const hashedPassword = bcrypt.hashSync(newPassword, hashRounds);
@@ -149,7 +141,6 @@ export class UserService {
       ...(newUserName && { name: newUserName }),
       ...(newPassword && { password: hashedPassword }),
     };
-    console.log('zzzzzzzzzzz');
     const updateUser = await this.userRepository.update(
       whereCondition,
       whereContent,

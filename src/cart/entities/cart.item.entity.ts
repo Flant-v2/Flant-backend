@@ -1,14 +1,11 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Merchandise } from '../../merchandise/entities/merchandise.entity';
 
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { Cart } from './cart.entity';
 import { MerchandiseOption } from 'src/merchandise/entities/marchandise-option.entity';

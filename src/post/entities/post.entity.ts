@@ -15,7 +15,6 @@ import { PostImage } from './post-image.entity';
 import { Community } from 'src/community/entities/community.entity';
 import { Exclude } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Artist } from './../../admin/entities/artist.entity';
 import { CommunityUser } from 'src/community/community-user/entities/communityUser.entity';
 import { Report } from 'src/report/entities/report.entity';
 
@@ -68,10 +67,6 @@ export class Post {
   })
   @JoinColumn({ name: 'community_id' })
   community: Community;
-
-  @ManyToOne(() => Artist, (artist) => artist.posts)
-  @JoinColumn({ name: 'artist_id' })
-  artist: Artist;
 
   @ManyToOne(() => CommunityUser, (communityUser) => communityUser.posts, {
     onDelete: 'CASCADE',

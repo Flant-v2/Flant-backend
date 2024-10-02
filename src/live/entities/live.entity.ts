@@ -4,19 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {
-  IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
-  IsUrl,
 } from 'class-validator';
 import { Community } from 'src/community/entities/community.entity';
-import { Artist } from 'src/admin/entities/artist.entity';
 
 @Entity('lives')
 export class Live {
@@ -61,8 +56,4 @@ export class Live {
   @ManyToOne(() => Community, (community) => community.live)
   @JoinColumn({name: 'community_id'})
   community: Community;
-
-  @ManyToOne(() => Artist, (artist) => artist.live)
-  @JoinColumn({name: 'artist_id'})
-  artist: Artist;
 }

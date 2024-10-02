@@ -34,9 +34,7 @@ import { ApiFiles } from 'src/util/decorators/api-file.decorator';
 import { UserInfo } from 'src/util/decorators/user-info.decorator';
 import { postImageUploadFactory } from 'src/util/image-upload/create-s3-storage';
 import { PartialUser } from 'src/user/interfaces/partial-user.entity';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CreateCommentDto } from 'src/comment/dto/create-comment.dto';
-import { CommunityUserGuard } from 'src/auth/guards/community-user.guard';
 
 @ApiTags('게시물')
 @Controller('v1/posts')
@@ -185,7 +183,7 @@ export class PostController {
   @Post('/:postId/comments')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get comments by post ID' })
-  @UseGuards(JwtAuthGuard, CommunityUserGuard)
+  @UseGuards(JwtAuthGuard)
   async createCommentByPost(
     @Body() createCommentDto: CreateCommentDto,
     @UserInfo() user: PartialUser,

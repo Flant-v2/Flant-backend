@@ -1,17 +1,14 @@
 import {
-  BadGatewayException,
   BadRequestException,
   HttpStatus,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notice } from './entities/notice.entity';
 import { Repository } from 'typeorm';
-import { Manager } from 'src/admin/entities/manager.entity';
 import { NoticeImage } from './entities/notice-image.entity';
 import _ from 'lodash';
 import { MESSAGES } from 'src/constants/message.constant';
@@ -24,8 +21,6 @@ export class NoticeService {
     private readonly noticeRepository: Repository<Notice>,
     @InjectRepository(NoticeImage)
     private readonly noticeImageRepository: Repository<NoticeImage>,
-    @InjectRepository(Manager)
-    private readonly managerRepository: Repository<Manager>,
   ) {}
   async create(
     user: PartialUser,

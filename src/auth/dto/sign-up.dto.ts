@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsStrongPassword } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { MESSAGES } from 'src/constants/message.constant';
 import { User } from 'src/user/entities/user.entity';
 

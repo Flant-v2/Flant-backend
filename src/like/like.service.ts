@@ -10,7 +10,6 @@ import { ApiResponse } from 'src/util/api-response.interface';
 import { createResponse } from 'src/util/response-util';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { LikeStatus } from './types/likeStatus.types';
-import { date } from 'joi';
 
 @Injectable()
 export class LikeService {

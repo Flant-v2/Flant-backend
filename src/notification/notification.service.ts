@@ -15,7 +15,6 @@ export class NotificationService {
   // 이벤트 연결
   sendClientAlarm(userId: number): Observable<any> {
     // 이벤트 발생시 처리 로직
-    console.log(userId);
     return this.observer.pipe(
       //이벤트 스트림을 구독
       // 유저 필터링 = userId가 일치하는 이벤트만 필터링

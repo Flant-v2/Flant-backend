@@ -7,8 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { Merchandise } from './merchandise.entity';
 
 @Entity('merchandise_image')
