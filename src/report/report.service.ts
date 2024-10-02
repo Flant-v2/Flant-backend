@@ -97,7 +97,7 @@ export class ReportService {
     );
 
     // 유효한 신고가 30개 이상이면 역할 변경
-    if (reportList.length >= 3) {
+    if (reportList.length >= 30) {
       // 게시물 작성자 id 추출
       const postByCommunityUser = await this.postRepository.findOne({
         where: { postId },
@@ -213,7 +213,7 @@ export class ReportService {
     );
 
     // 유효한 신고가 30개 이상이면 역할 변경
-    if (reportList.length >= 3) {
+    if (reportList.length >= 30) {
       // 댓글 작성자 id 추출
       const commentByCommunityUser = await this.commentRepository.findOne({
         where: { commentId },
