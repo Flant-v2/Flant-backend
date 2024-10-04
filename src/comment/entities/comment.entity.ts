@@ -7,10 +7,11 @@ import {
   DeleteDateColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   JoinColumn,
 } from 'typeorm';
 import { CommunityUser } from '../../community/community-user/entities/communityUser.entity';
-
+import { Report } from 'src/report/entities/report.entity';
 @Entity('comments')
 export class Comment {
   @PrimaryGeneratedColumn({ unsigned: true })
@@ -60,4 +61,8 @@ export class Comment {
     onDelete: 'CASCADE',
   })
   parent: Comment | null;
+
+  //신고 연결
+  @OneToMany(() => Report, (report) => report.comment, { onDelete: 'CASCADE' })
+  report: Report[];
 }

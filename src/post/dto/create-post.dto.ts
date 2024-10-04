@@ -1,7 +1,9 @@
-import { PickType } from '@nestjs/swagger';
-import { Post } from '../entities/post.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePostDto extends PickType(Post, [
-  'content',
-  'communityId',
-]) {}
+export class CreatePostDto {
+  @ApiProperty({ description: '게시글의 내용', required: true })
+  content: string;
+
+  @ApiProperty({ description: '커뮤니티 ID' })
+  communityId: number;
+}

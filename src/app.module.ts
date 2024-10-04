@@ -29,6 +29,7 @@ import { SentryWebhookInterceptor } from './webhook.interceptor';
 import { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-yet';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     LiveModule,
     CommunityUserModule,
     ChatModule,
+    ReportModule,
   ],
   controllers: [AppController],
   providers: [

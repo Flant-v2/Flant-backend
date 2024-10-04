@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Validate } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Validate } from 'class-validator';
 import { Membership } from '../../../membership/entities/membership.entity';
 import {
   Column,
@@ -15,6 +15,8 @@ import { User } from '../../../user/entities/user.entity';
 import { Comment } from '../../../comment/entities/comment.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { IsValidNameConstraint } from 'src/util/decorators/is-valid-name-constraint';
+import { Report } from 'src/report/entities/report.entity';
+import { CommunityUserRole } from '../types/community-user-role.type';
 
 @Entity('community_users')
 export class CommunityUser {
@@ -36,6 +38,14 @@ export class CommunityUser {
   @Validate(IsValidNameConstraint)
   @Column()
   nickName: string;
+
+  @IsEnum(CommunityUserRole)
+  @Column({
+    type: 'enum',
+    enum: CommunityUserRole,
+    default: CommunityUserRole.USER,
+  })
+  role: CommunityUserRole;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -65,4 +75,11 @@ export class CommunityUser {
 
   @OneToMany(() => Post, (post) => post.communityUser)
   posts: Post[];
+
+  //신고 연결
+  @OneToMany(() => Report, (report) => report.communityUser, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  report: Report[];
 }

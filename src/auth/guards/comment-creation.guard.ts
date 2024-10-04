@@ -10,8 +10,9 @@ export class CommentCreationGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-
     // 사용자가 멤버십을 가지고 있거나 아티스트 매니저인지 확인
+    console.log(user);
+
     return user && (user.hasMembership || user.isArtistManager);
   }
 }

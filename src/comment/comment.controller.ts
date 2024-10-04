@@ -42,13 +42,16 @@ export class CommentController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, CommentCreationGuard)
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Create a comment (Membership or Artist Manager required)',
   })
   @ApiBody({ type: CreateCommentDto })
-  async create(@Body() commentData: CreateCommentDto, @UserInfo() user: PartialUser): Promise<Comment> {
+  async create(
+    @Body() commentData: CreateCommentDto,
+    @UserInfo() user: PartialUser,
+  ): Promise<Comment> {
     return this.commentService.createComment(commentData);
   }
 
